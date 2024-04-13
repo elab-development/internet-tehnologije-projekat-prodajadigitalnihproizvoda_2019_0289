@@ -17,7 +17,8 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id'=>5,
+            'user_id'=>1,
+            'product_id'=>2,
             'order_date' => fake()->dateTimeBetween('-1 years', 'now')->format('Y-m-d H:i:s'),
         ];
     }

@@ -7,8 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Order;
-
-
+use Illuminate\Support\Facades\DB;
 
 
 class DatabaseSeeder extends Seeder
@@ -20,20 +19,23 @@ class DatabaseSeeder extends Seeder
 
     {
 
-        // User::truncate();
-        // Order::truncate();
-        // Product::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Order::truncate();
+        User::truncate();
+        Product::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
 
-        $this->call([
-            UsersSeeder::class,
-            ProductSeeder::class,
-            // Dodajte ostale seedere ovde...
-        ]);
+         
+        // $this->call([
+        //     UsersSeeder::class,
+        // ]);
 
-        User::factory()->count(10)->create();
-        Product::factory()->count(3)->create();
-        Order::factory()->count(4)->create();
+
+
+        // User::factory()->count(10)->create();
+        // Product::factory()->count(3)->create();
+        // Order::factory()->count(4)->create();
 
         
 

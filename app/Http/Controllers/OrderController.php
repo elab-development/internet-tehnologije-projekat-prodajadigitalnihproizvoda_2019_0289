@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\OrderResource;
 
 class OrderController extends Controller
 {
@@ -17,7 +18,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::all();
-        return $orders;
+        return new OrderCollection($orders);
     }
 
     /**
@@ -38,18 +39,13 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'location' => 'required|string|max:255',
-            'customer_id' => 'required|integer'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors());
-        }
+       //Uradi validator!!!
 
         $order = Order::create([
-            'location' => $request->location,
-            'customer_id' => $request->customer_id
+            'user_id'=>$request->user_id,
+            'product_id'=>$request->product_id,
+            'order_date' => $request->order_date,
+            
         ]);
 
         return response()->json([
@@ -70,7 +66,7 @@ class OrderController extends Controller
         if (is_null($order)) {
             return response()->json('Order not found', 404);
         }
-        return response()->json($order);
+        return new OrderResource($order);
     }
 
     /**
@@ -93,15 +89,9 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        $validator = Validator::make($request->all(), [
-            'location' => 'required|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors());
-        }
-
-        $order->location = $request->location;
+        //Dodati validator!!
+        
+        $order->order_date = $request->order_date;
 
         $order->save();
 

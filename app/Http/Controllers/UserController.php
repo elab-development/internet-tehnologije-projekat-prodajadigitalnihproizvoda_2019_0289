@@ -13,7 +13,7 @@ class UserController extends Controller
     public function index()
 {
     $users = User::all();
-    return $users;
+    return new UserCollection($users);
 }
 
     /**
@@ -41,7 +41,7 @@ class UserController extends Controller
         if (is_null($user)) {
             return response()->json('User not found', 404);
         }
-        return response()->json($user);
+        return new UserResource($user);
         
     }
 

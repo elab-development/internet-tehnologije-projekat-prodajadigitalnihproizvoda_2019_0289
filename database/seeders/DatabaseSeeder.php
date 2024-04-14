@@ -25,20 +25,15 @@ class DatabaseSeeder extends Seeder
         Product::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-
          
         // $this->call([
         //     UsersSeeder::class,
         // ]);
 
 
-
         // User::factory()->count(10)->create();
         // Product::factory()->count(3)->create();
         // Order::factory()->count(4)->create();
-
-        
-
 
 
         // User::factory()->create([

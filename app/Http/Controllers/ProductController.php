@@ -6,6 +6,8 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\ProductCollection;
+
 
 class ProductController extends Controller
 {
@@ -17,8 +19,15 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return $products;
+        return new ProductCollection($products);
+
     }
+
+    public function indexVideos()
+{
+    $products = Product::get()->where('type', 'video'); 
+    return response()->json($products);
+}
 
     /**
      * Show the form for creating a new resource.
@@ -40,8 +49,9 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'type'=>'required|string|max:255',
             'price' => 'required|integer|between:10,300',
-            'order_id' => 'required|integer'
+            'num_of_downloads' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
@@ -50,8 +60,9 @@ class ProductController extends Controller
 
         $product = Product::create([
             'name' => $request->name,
+            'type'=>$request->type,
             'price' => $request->price,
-            'order_id' => $request->order_id,
+            'num_of_downloads' => $request->num_of_downloads,
         ]);
 
         return response()->json([
@@ -72,7 +83,7 @@ class ProductController extends Controller
         if (is_null($product)) {
             return response()->json('Product not found', 404);
         }
-        return response()->json($product);
+        return new ProductResource($product);
     }
 
     /**

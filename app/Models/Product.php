@@ -25,7 +25,6 @@ class Product extends Model
         'price',
         'type',
         'category',
-        'author',
         'num_of_downloads',
         'full_product',
         'free_version',

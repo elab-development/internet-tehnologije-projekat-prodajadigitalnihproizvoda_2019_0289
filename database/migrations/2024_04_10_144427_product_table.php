@@ -17,14 +17,11 @@ return new class extends Migration
             $table->double('price',8,2);
             $table->string('type');
             $table->string('category');
-            $table->string('author');
             $table->integer('num_of_downloads')->default(0);
             $table->string('full_product');
             $table->string('free_version');
             $table->string('imageUrl');
            
-           
-
         });
     }
 

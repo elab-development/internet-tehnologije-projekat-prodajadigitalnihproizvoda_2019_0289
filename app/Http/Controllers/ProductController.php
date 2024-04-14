@@ -23,9 +23,9 @@ class ProductController extends Controller
 
     }
 
-    public function indexVideos()
+    public function indexType($type)
 {
-    $products = Product::get()->where('type', 'video'); 
+    $products = Product::get()->where('type', $type); 
     return response()->json($products);
 }
 

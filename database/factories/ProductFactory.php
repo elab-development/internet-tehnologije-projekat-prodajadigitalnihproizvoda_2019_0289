@@ -21,7 +21,7 @@ class ProductFactory extends Factory
         return [
             'name' => fake()->name(),
             'price' => fake()->randomFloat(2, 10, 1000),
-            'type' => fake()->randomElement(['slika', 'video', 'pdf']),
+            'type' => fake()->randomElement(['image', 'video', 'pdf']),
             'category' => fake()->word(),
             'author' => fake()->name(),
             'num_of_downloads' => fake()->numberBetween(0, 100),

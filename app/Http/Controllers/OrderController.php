@@ -7,6 +7,10 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrderCollection;
+use App\Models\User;
+
+
 
 class OrderController extends Controller
 {
@@ -20,6 +24,13 @@ class OrderController extends Controller
         $orders = Order::all();
         return new OrderCollection($orders);
     }
+
+
+    public function userOrder(User $user)
+{
+    $orders = $user->orders()->get();
+    return response()->json($orders);
+}
 
     /**
      * Show the form for creating a new resource.
@@ -87,19 +98,33 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
-    {
-        //Dodati validator!!
+    // public function update(Request $request, Order $order)
+    // {
+    //     //Dodati validator!!
         
-        $order->order_date = $request->order_date;
+    //     $order->order_date = $request->order_date;
 
-        $order->save();
+    //     $order->save();
 
-        return response()->json([
-            'message' => 'Order was updated',
-            'order' => new OrderResource($order)
-        ]);
-    }
+    //     return response()->json([
+    //         'message' => 'Order was updated',
+    //         'order' => new OrderResource($order)
+    //     ]);
+    // }
+
+    public function update(Request $request, Order $order)
+{
+    $validatedData = $request->validate([
+        'user_id' => 'required|integer',
+        'product_id' => 'required|integer',
+        'order_date' => 'required|date'
+    ]);
+
+    $order->update($validatedData);
+
+    return response()->json($order);
+}
+
 
     /**
      * Remove the specified resource from storage.

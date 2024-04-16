@@ -34,36 +34,6 @@ class Product extends Model
     ];
 
 
-    // const TYPE_VIDEO = 'video';
-    // const TYPE_PDF = 'pdf';
-    // const TYPE_IMAGE = 'image';
-    
-    // public function addImage($image){
-
-    //      $path=$image->store('image/product');
-    //     $this->update(['path_to_the_image'=>$path]);
-   
-    // }
-
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        
-    ];
-
     public function order(){
         return $this->hashMany(Order::class);        
     }

@@ -104,27 +104,42 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'price' => 'required|integer|between:10,300',
-        ]);
+    // public function update(Request $request, Product $product)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'name' => 'required|string|max:255',
+    //         'price' => 'required|float|between:10,500',
+    //     ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors());
-        }
+    //     if ($validator->fails()) {
+    //         return response()->json($validator->errors());
+    //     }
 
-        $product->name = $request->name;
-        $product->price = $request->price;
+    //     $product->name = $request->name;
+    //     $product->price = $request->price;
 
-        $product->save();
+    //     $product->save();
 
-        return response()->json([
-            'message' => 'Product was updated',
-            'product' => new ProductResource($product)
-        ]);
-    }
+    //     return response()->json([
+    //         'message' => 'Product was updated',
+    //         'product' => new ProductResource($product)
+    //     ]);
+    // }
+
+
+
+public function update(Request $request, Product $product)
+{
+    $validatedData = $request->validate([
+        'name' => 'required|string',
+        'price' => 'required|numeric',
+        'type' => 'required|string'
+    ]);
+
+    $product->update($validatedData);
+
+    return response()->json($product);
+}
 
     /**
      * Remove the specified resource from storage.

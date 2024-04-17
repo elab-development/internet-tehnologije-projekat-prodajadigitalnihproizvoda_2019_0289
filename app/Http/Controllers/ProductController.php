@@ -47,28 +47,21 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'name' => 'required|string|max:255',
-            'type'=>'required|string|max:255',
-            'price' => 'required|integer|between:10,300',
-            'num_of_downloads' => 'required|integer'
+            'price' => 'required|numeric|min:0',
+            'type' => 'required|string|max:255',
+            'num_of_downloads' => 'required|integer|min:0',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors());
-        }
+        $product = new Product();
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->type = $request->type;
+        $product->num_of_downloads = $request->num_of_downloads;
+        $product->save();
 
-        $product = Product::create([
-            'name' => $request->name,
-            'type'=>$request->type,
-            'price' => $request->price,
-            'num_of_downloads' => $request->num_of_downloads,
-        ]);
-
-        return response()->json([
-            'message' => 'Product was created',
-            'product' => new ProductResource($product)
-        ]);
+        return response()->json(['message' => 'Proizvod je uspješno spremljen'], 201);
     }
 
     /**
@@ -104,28 +97,6 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    // public function update(Request $request, Product $product)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'name' => 'required|string|max:255',
-    //         'price' => 'required|float|between:10,500',
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return response()->json($validator->errors());
-    //     }
-
-    //     $product->name = $request->name;
-    //     $product->price = $request->price;
-
-    //     $product->save();
-
-    //     return response()->json([
-    //         'message' => 'Product was updated',
-    //         'product' => new ProductResource($product)
-    //     ]);
-    // }
-
 
 
 public function update(Request $request, Product $product)

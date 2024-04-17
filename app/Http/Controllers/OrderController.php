@@ -26,10 +26,10 @@ class OrderController extends Controller
     }
 
 
-    public function userOrder(User $user)
+    public function userOrder($user)
 {
-    $orders = $user->orders()->get();
-    return response()->json($orders);
+    $orders=Order::get()->where('user_id',$user);
+    return new OrderCollection($orders);
 }
 
     /**
@@ -50,19 +50,19 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-       //Uradi validator!!!
-
-        $order = Order::create([
-            'user_id'=>$request->user_id,
-            'product_id'=>$request->product_id,
-            'order_date' => $request->order_date,
-            
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'product_id' => 'required|exists:products,id',
+            'order_date' => 'required|date',
         ]);
 
-        return response()->json([
-            'message' => 'Order was created',
-            'order' => new OrderResource($order)
-        ]);
+        $order = new Order();
+        $order->user_id = $request->user_id;
+        $order->product_id = $request->product_id;
+        $order->order_date = $request->order_date;
+        $order->save();
+
+        return response()->json(['message' => 'Narudžba je uspješno spremljena'], 201);
     }
 
     /**
@@ -98,19 +98,7 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    // public function update(Request $request, Order $order)
-    // {
-    //     //Dodati validator!!
-        
-    //     $order->order_date = $request->order_date;
-
-    //     $order->save();
-
-    //     return response()->json([
-    //         'message' => 'Order was updated',
-    //         'order' => new OrderResource($order)
-    //     ]);
-    // }
+   
 
     public function update(Request $request, Order $order)
 {
@@ -122,7 +110,8 @@ class OrderController extends Controller
 
     $order->update($validatedData);
 
-    return response()->json($order);
+    return response()->json(['Reservation is updated successfully.', new OrderResource($order)]);
+
 }
 
 

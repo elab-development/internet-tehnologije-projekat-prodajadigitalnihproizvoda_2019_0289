@@ -47,6 +47,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('products', ProductController::class)
         ->only(['store', 'update', 'destroy']);
 
+    Route::group(['middleware' => ['auth:sanctum', 'admin']], function () {
+        Route::resource('products', ProductController::class)->only(['store', 'update', 'destroy']);
+    });
+        
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 

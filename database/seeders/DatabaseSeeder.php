@@ -25,7 +25,15 @@ class DatabaseSeeder extends Seeder
         Product::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-         
+        //dodavanje admina u bazu
+
+        $user = new User();
+        $user->name = 'Admin';
+        $user->email = 'admin@gmail.com';
+        $user->password = bcrypt('admin123');
+        $user->save();
+
+
         // $this->call([
         //     UsersSeeder::class,
         // ]);
@@ -36,10 +44,6 @@ class DatabaseSeeder extends Seeder
         Order::factory()->count(4)->create();
 
 
-        // User::factory()->create([
-
-        //     'name' => 'Karl Nikl',
-        //     'email' => 'karl@example.com',
-        // ]);
+        
     }
 }

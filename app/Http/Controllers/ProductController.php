@@ -7,10 +7,35 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ProductCollection;
+use App\Services\FileService;
+
 
 
 class ProductController extends Controller
 {
+
+
+    // protected $fileService;
+
+    // public function __construct(FileService $fileService)
+    // {
+    //     $this->fileService = $fileService;
+    // }
+
+    // public function store1($type)
+    // {
+    //     // Generisanje nasumičnih putanja
+    //     $paths = $this->fileService->generateRandomPaths($type);
+
+    //     // Ubacivanje putanja u bazu podataka
+    //     $product = $this->fileService->insertPathsToDatabase($type, $paths);
+
+    //     return response()->json($product, 201);
+    // }
+
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -45,6 +70,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         $request->validate([
@@ -124,4 +150,7 @@ public function update(Request $request, Product $product)
 
         return response()->json('Product was deleted');
     }
+
+
+
 }

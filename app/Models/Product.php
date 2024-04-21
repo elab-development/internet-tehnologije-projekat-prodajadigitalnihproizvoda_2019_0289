@@ -33,6 +33,13 @@ class Product extends Model
 
     ];
 
+    protected $attributes = [
+        'free_version' => null,
+        
+
+
+    ];
+
 
     public function order(){
         return $this->hashMany(Order::class);        

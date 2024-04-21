@@ -36,7 +36,7 @@ class ProductFactory extends Factory
             'num_of_downloads' => $this->faker->numberBetween(0, 100),
             'free_version' => Storage::url("products/{$type}s/2/{$fileName}"),
             'full_product' => Storage::url("products/{$type}s/1/{$fileName}"),
-            'imageUrl' => Storage::url("products/{$type}s/{$folder}/{$fileName}"),
+            'imageUrl' => Storage::url("products/{$type}s/3/{$fileName}"),
         ];
 
         // Povezivanje putanja slika sa odgovarajućim atributom proizvoda
